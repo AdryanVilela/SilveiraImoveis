@@ -2,8 +2,8 @@
 // Configurações do Banco de Dados
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'silveira_imoveis');
-define('DB_USER', 'root');
-define('DB_PASS', '123456');
+define('DB_USER', 'adryan');
+define('DB_PASS', 'wac2bmJA');
 define('DB_CHARSET', 'utf8mb4');
 
 // Conexão com o banco de dados
