@@ -98,7 +98,7 @@ $configs = $configs_array;
                     <a href="index.html#contato" class="nav-item nav-link">Contato</a>
                 </div>
                 <div class="d-none d-lg-flex">
-                    <a class="btn btn-outline-primary border-2 btn-anunciar" href="index.html#contato">
+                    <a class="btn btn-outline-primary border-2 btn-anunciar" href="https://api.whatsapp.com/send/?phone=5527996651104&text&type=phone_number&app_absent=0">
                         <i class="bi bi-plus-circle me-2"></i>Anunciar Imóvel
                     </a>
                 </div>

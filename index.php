@@ -160,9 +160,7 @@ $isAdmin = isLoggedIn();
                             </div>
                         </div>
                         <p class="fs-5 mb-5 animated slideInDown"><?= htmlspecialchars($configs['carousel_subtitulo'] ?? '') ?></p>
-                        <a href="#properties"
-                            class="btn btn-outline-primary border-2 py-3 px-5 animated slideInDown">Explorar
-                            Imóveis</a>
+                        
                     </div>
                 </div>
                 <div class="carousel-item">
@@ -222,11 +220,11 @@ $isAdmin = isLoggedIn();
                         </ul>
                         <div class="row wow fadeInUp" data-wow-delay="0.4s">
                             <div class="col-6">
-                                <a href="contact.html" class="btn btn-outline-primary border-2 py-3 w-100">Anunciar
+                                <a href="https://api.whatsapp.com/send/?phone=5527996651104&text&type=phone_number&app_absent=0" class="btn btn-outline-primary border-2 py-3 w-100">Anunciar
                                     Imóvel</a>
                             </div>
                             <div class="col-6">
-                                <a href="contact.html" class="btn btn-primary py-3 w-100">Agendar Visita</a>
+                                <a href="https://api.whatsapp.com/send/?phone=5527996651104&text&type=phone_number&app_absent=0" class="btn btn-primary py-3 w-100">Agendar Visita</a>
                             </div>
                         </div>
                     </div>
