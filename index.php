@@ -19,6 +19,19 @@ $imoveis = $stmt->fetchAll();
 $stmt = $pdo->query("SELECT * FROM servicos WHERE ativo = 1 ORDER BY ordem ASC");
 $servicos = $stmt->fetchAll();
 
+// Buscar valores únicos para os filtros (apenas de imóveis ativos)
+$stmt = $pdo->query("SELECT DISTINCT tipo FROM imoveis WHERE ativo = 1 AND tipo IS NOT NULL AND tipo != '' ORDER BY tipo");
+$tipos_disponiveis = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+$stmt = $pdo->query("SELECT DISTINCT status FROM imoveis WHERE ativo = 1 AND status IS NOT NULL AND status != '' ORDER BY status");
+$status_disponiveis = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+$stmt = $pdo->query("SELECT DISTINCT localizacao FROM imoveis WHERE ativo = 1 AND localizacao IS NOT NULL AND localizacao != '' ORDER BY localizacao");
+$localizacoes_disponiveis = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+$stmt = $pdo->query("SELECT DISTINCT quartos FROM imoveis WHERE ativo = 1 AND quartos IS NOT NULL ORDER BY quartos");
+$quartos_disponiveis = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
 // Verificar se está logado
 $isAdmin = isLoggedIn();
 ?>
@@ -316,10 +329,11 @@ $isAdmin = isLoggedIn();
                                     <div class="col-md-6">
                                         <select class="form-select select2-multi" multiple="multiple" id="tipo-imovel"
                                             data-placeholder="Tipo de Imóvel">
-                                            <option value="apartamento">Apartamento</option>
-                                            <option value="casa">Casa</option>
-                                            <option value="cobertura">Cobertura</option>
-                                            <option value="comercial">Comercial</option>
+                                            <?php foreach ($tipos_disponiveis as $tipo): ?>
+                                                <option value="<?= strtolower($tipo) ?>">
+                                                    <?= htmlspecialchars(ucfirst($tipo)) ?>
+                                                </option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
 
@@ -327,9 +341,11 @@ $isAdmin = isLoggedIn();
                                     <div class="col-md-6">
                                         <select class="form-select select2-multi" multiple="multiple" id="status"
                                             data-placeholder="Status">
-                                            <option value="lancamento">Lançamento</option>
-                                            <option value="construcao">Em Construção</option>
-                                            <option value="pronto">Pronto</option>
+                                            <?php foreach ($status_disponiveis as $status): ?>
+                                                <option value="<?= strtolower(str_replace(' ', '-', $status)) ?>">
+                                                    <?= htmlspecialchars($status) ?>
+                                                </option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
 
@@ -337,9 +353,11 @@ $isAdmin = isLoggedIn();
                                     <div class="col-md-6">
                                         <select class="form-select select2-multi" multiple="multiple" id="localizacao"
                                             data-placeholder="Localização">
-                                            <option value="vitoria">Vitória</option>
-                                            <option value="serra">Serra</option>
-                                            <option value="vila-velha">Vila Velha</option>
+                                            <?php foreach ($localizacoes_disponiveis as $localizacao): ?>
+                                                <option value="<?= strtolower($localizacao) ?>">
+                                                    <?= htmlspecialchars($localizacao) ?>
+                                                </option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
 
@@ -347,10 +365,11 @@ $isAdmin = isLoggedIn();
                                     <div class="col-md-6">
                                         <select class="form-select select2-multi" multiple="multiple" id="quartos"
                                             data-placeholder="Quartos">
-                                            <option value="1">1 Quarto</option>
-                                            <option value="2">2 Quartos</option>
-                                            <option value="3">3 Quartos</option>
-                                            <option value="4">4+ Quartos</option>
+                                            <?php foreach ($quartos_disponiveis as $quarto): ?>
+                                                <option value="<?= $quarto ?>">
+                                                    <?= $quarto ?> <?= $quarto == 1 ? 'Quarto' : 'Quartos' ?>
+                                                </option>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
 
