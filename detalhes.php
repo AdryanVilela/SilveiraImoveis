@@ -302,7 +302,6 @@ $configs = $configs_array;
         <div class="container py-5">
             <div class="row g-5">
                 <div class="col-lg-4 col-md-6">
-                    <img src="logo-preta.PNG" alt="Silveira Imóveis" class="footer-logo mb-3">
                     <p class="mb-4">Há mais de 15 anos no mercado imobiliário, oferecendo as melhores soluções em
                         compra, venda e locação de imóveis em Vitória e região.</p>
                     <div class="d-flex">
