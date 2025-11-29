@@ -65,6 +65,44 @@ $isAdmin = isLoggedIn();
 
     <!-- Custom Real Estate Theme - White & Red -->
     <link href="css/real-estate-custom.css" rel="stylesheet">
+
+    <style>
+        /* Estilos para busca de imóveis */
+        .no-results-message {
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .imovel-item {
+            transition: all 0.3s ease;
+        }
+
+        /* Destaque nos filtros ativos */
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background-color: #dc3545 !important;
+            border-color: #dc3545 !important;
+            color: white !important;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            color: white !important;
+        }
+
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+            color: #fff !important;
+            background-color: rgba(0,0,0,0.2) !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -81,7 +119,7 @@ $isAdmin = isLoggedIn();
     <!-- Header Start -->
     <div class="container-fluid p-0">
         <nav class="navbar navbar-expand-lg navbar-dark px-lg-5 modern-navbar" id="mainNav">
-            <a href="#home" class="navbar-brand ms-4 ms-lg-0">
+            <a href="#" class="navbar-brand ms-4 ms-lg-0">
                 <img src="logo.PNG" alt="Silveira Imóveis" class="navbar-logo">
             </a>
             <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse"
@@ -221,7 +259,7 @@ $isAdmin = isLoggedIn();
                         <div class="service-text px-5 px-md-0 py-md-5 wow fadeInRight" data-wow-delay="0.5s">
                             <h3 class="text-uppercase"><?= htmlspecialchars($servico['titulo']) ?></h3>
                             <p class="mb-4"><?= htmlspecialchars($servico['descricao']) ?></p>
-                            <a class="btn btn-outline-primary border-2 px-4" href="service.html">Saiba Mais <i
+                            <a class="btn btn-outline-primary border-2 px-4" href="https://api.whatsapp.com/send/?phone=5527996651104&text&type=phone_number&app_absent=0">Saiba Mais <i
                                     class="fa fa-arrow-right ms-1"></i></a>
                         </div>
                     </div>
@@ -235,7 +273,7 @@ $isAdmin = isLoggedIn();
                         <div class="service-text px-5 px-md-0 py-md-5 text-md-end wow fadeInLeft" data-wow-delay="0.5s">
                             <h3 class="text-uppercase"><?= htmlspecialchars($servico['titulo']) ?></h3>
                             <p class="mb-4"><?= htmlspecialchars($servico['descricao']) ?></p>
-                            <a class="btn btn-outline-primary border-2 px-4" href="service.html">Saiba Mais <i
+                            <a class="btn btn-outline-primary border-2 px-4" href="https://api.whatsapp.com/send/?phone=5527996651104&text&type=phone_number&app_absent=0">Saiba Mais <i
                                     class="fa fa-arrow-right ms-1"></i></a>
                         </div>
                     </div>
@@ -291,7 +329,7 @@ $isAdmin = isLoggedIn();
                                             data-placeholder="Status">
                                             <option value="lancamento">Lançamento</option>
                                             <option value="construcao">Em Construção</option>
-                                            <option value="pronto">Pronto para Morar</option>
+                                            <option value="pronto">Pronto</option>
                                         </select>
                                     </div>
 
@@ -316,11 +354,14 @@ $isAdmin = isLoggedIn();
                                         </select>
                                     </div>
 
-                                    <!-- Botão de Busca -->
+                                    <!-- Botões de Busca -->
                                     <div class="col-12 mt-4">
-                                        <button type="submit" class="btn-search-argo">
-                                            <i class="bi bi-search me-2"></i>Buscar Imóveis
-                                        </button>
+                                        <div class="d-flex gap-3">
+                                            <button type="submit" class="btn-search-argo flex-grow-1">
+                                                <i class="bi bi-search me-2"></i>Buscar Imóveis
+                                            </button>
+                                            
+                                        </div>
                                     </div>
                                 </div>
                             </form>
@@ -343,7 +384,13 @@ $isAdmin = isLoggedIn();
                 $delay = 0;
                 foreach ($imoveis as $imovel):
                 ?>
-                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="<?= $delay ?>">
+                <div class="col-lg-4 col-md-6 imovel-item"
+                     data-aos="fade-up"
+                     data-aos-delay="<?= $delay ?>"
+                     data-tipo="<?= strtolower($imovel['tipo'] ?? '') ?>"
+                     data-status="<?= strtolower(str_replace(' ', '-', $imovel['status'] ?? '')) ?>"
+                     data-localizacao="<?= strtolower($imovel['localizacao'] ?? '') ?>"
+                     data-quartos="<?= $imovel['quartos'] ?? '0' ?>">
                     <div class="card-argo">
                         <div class="card-argo-image">
                             <img src="<?= htmlspecialchars($imovel['imagem_url']) ?>"
@@ -442,9 +489,12 @@ $isAdmin = isLoggedIn();
     </div>-->
     <!-- Testimonial End -->
 
+    <!-- Contact Section Start -->
+    
+    <!-- Contact Section End -->
 
     <!-- Footer Start -->
-    <div class="container-fluid bg-dark text-light footer py-5 wow fadeIn" data-wow-delay="0.1s" id="contato">
+    <div class="container-fluid bg-dark text-light footer py-5 wow fadeIn" data-wow-delay="0.1s">
         <div class="container py-5">
             <div class="row g-5">
                 <!-- Sobre a Empresa -->
@@ -539,6 +589,202 @@ $isAdmin = isLoggedIn();
                     placeholder: $(this).data('placeholder'),
                     allowClear: true,
                     width: '100%'
+                });
+            });
+
+            // Sistema de Busca de Imóveis
+            $('.search-form').on('submit', function(e) {
+                e.preventDefault();
+                filtrarImoveis();
+            });
+
+            // Filtrar ao mudar qualquer select
+            $('.select2-multi').on('change', function() {
+                filtrarImoveis();
+            });
+
+            function filtrarImoveis() {
+                const tipos = $('#tipo-imovel').val() || [];
+                const status = $('#status').val() || [];
+                const localizacoes = $('#localizacao').val() || [];
+                const quartos = $('#quartos').val() || [];
+
+                let totalVisiveis = 0;
+                let totalOcultos = 0;
+
+                $('.imovel-item').each(function() {
+                    const $item = $(this);
+                    const itemTipo = $item.data('tipo');
+                    const itemStatus = $item.data('status');
+                    const itemLocalizacao = $item.data('localizacao');
+                    const itemQuartos = String($item.data('quartos'));
+
+                    let mostrar = true;
+
+                    // Filtrar por tipo
+                    if (tipos.length > 0) {
+                        mostrar = mostrar && tipos.some(t => itemTipo.includes(t));
+                    }
+
+                    // Filtrar por status
+                    if (status.length > 0) {
+                        const statusNormalizados = status.map(s => {
+                            if (s === 'lancamento') return 'lançamento';
+                            if (s === 'construcao') return 'em-construção';
+                            if (s === 'pronto') return 'pronto';
+                            return s;
+                        });
+                        mostrar = mostrar && statusNormalizados.some(s => itemStatus.includes(s));
+                    }
+
+                    // Filtrar por localização
+                    if (localizacoes.length > 0) {
+                        mostrar = mostrar && localizacoes.some(l => itemLocalizacao.includes(l));
+                    }
+
+                    // Filtrar por quartos
+                    if (quartos.length > 0) {
+                        const quartosMatch = quartos.some(q => {
+                            if (q === '4') {
+                                return parseInt(itemQuartos) >= 4;
+                            }
+                            return itemQuartos === q;
+                        });
+                        mostrar = mostrar && quartosMatch;
+                    }
+
+                    if (mostrar) {
+                        $item.fadeIn(300);
+                        totalVisiveis++;
+                    } else {
+                        $item.fadeOut(300);
+                        totalOcultos++;
+                    }
+                });
+
+                // Mostrar mensagem se não encontrar nada
+                if (totalVisiveis === 0) {
+                    if ($('.no-results-message').length === 0) {
+                        $('.empreendimentos-section .row').append(`
+                            <div class="col-12 no-results-message text-center py-5">
+                                <i class="fas fa-search fa-4x text-muted mb-3"></i>
+                                <h4 class="text-muted">Nenhum imóvel encontrado</h4>
+                                <p class="text-muted">Tente ajustar os filtros de busca</p>
+                                <button class="btn btn-primary mt-3" onclick="limparFiltros()">
+                                    <i class="fas fa-rotate-right me-2"></i>Limpar Filtros
+                                </button>
+                            </div>
+                        `);
+                    }
+                } else {
+                    $('.no-results-message').remove();
+                }
+
+                // Scroll suave até os resultados
+                if (tipos.length > 0 || status.length > 0 || localizacoes.length > 0 || quartos.length > 0) {
+                    $('html, body').animate({
+                        scrollTop: $('.empreendimentos-section').offset().top - 100
+                    }, 500);
+                }
+            }
+
+            // Função global para limpar filtros
+            window.limparFiltros = function() {
+                $('.select2-multi').val(null).trigger('change');
+                $('.imovel-item').fadeIn(300);
+                $('.no-results-message').remove();
+            };
+
+            // Máscara de telefone
+            $('#telefone').on('input', function() {
+                let value = $(this).val().replace(/\D/g, '');
+
+                if (value.length <= 11) {
+                    value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+                    value = value.replace(/(\d)(\d{4})$/, '$1-$2');
+                }
+
+                $(this).val(value);
+            });
+
+            // Formulário de Contato - WhatsApp
+            $('#contactForm').on('submit', function(e) {
+                e.preventDefault();
+
+                // Pegar valores do formulário
+                const nome = $('#nome').val().trim();
+                const telefone = $('#telefone').val().trim();
+                const email = $('#email').val().trim();
+                const assunto = $('#assunto').val();
+                const mensagem = $('#mensagem').val().trim();
+
+                // Validar campos
+                if (!nome || !telefone || !email || !assunto || !mensagem) {
+                    Swal.fire({
+                        title: 'Atenção!',
+                        html: '<i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i><br>Por favor, preencha todos os campos!',
+                        icon: 'warning',
+                        confirmButtonText: '<i class="fas fa-check me-2"></i>OK',
+                        customClass: {
+                            confirmButton: 'btn btn-warning btn-lg px-4'
+                        },
+                        buttonsStyling: false
+                    });
+                    return;
+                }
+
+                // Montar mensagem para WhatsApp
+                let textoWhatsApp = `*CONTATO DO SITE - SILVEIRA IMÓVEIS*\n\n`;
+                textoWhatsApp += `👤 *Nome:* ${nome}\n`;
+                textoWhatsApp += `📱 *Telefone:* ${telefone}\n`;
+                textoWhatsApp += `📧 *E-mail:* ${email}\n`;
+                textoWhatsApp += `🏷️ *Assunto:* ${assunto}\n\n`;
+                textoWhatsApp += `💬 *Mensagem:*\n${mensagem}`;
+
+                // Codificar para URL
+                const textoEncoded = encodeURIComponent(textoWhatsApp);
+
+                // Número do WhatsApp (sem espaços, traços ou parênteses)
+                const numeroWhatsApp = '5527996651104';
+
+                // Montar URL do WhatsApp
+                const urlWhatsApp = `https://api.whatsapp.com/send/?phone=${numeroWhatsApp}&text=${textoEncoded}&type=phone_number&app_absent=0`;
+
+                // Mostrar confirmação
+                Swal.fire({
+                    title: 'Enviar para WhatsApp?',
+                    html: '<i class="fab fa-whatsapp fa-3x text-success mb-3"></i><br>Você será redirecionado para o WhatsApp',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: '<i class="fab fa-whatsapp me-2"></i>Sim, enviar!',
+                    cancelButtonText: '<i class="fas fa-xmark me-2"></i>Cancelar',
+                    customClass: {
+                        confirmButton: 'btn btn-success btn-lg px-4 me-2',
+                        cancelButton: 'btn btn-secondary btn-lg px-4'
+                    },
+                    buttonsStyling: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Abrir WhatsApp em nova aba
+                        window.open(urlWhatsApp, '_blank');
+
+                        // Limpar formulário
+                        $('#contactForm')[0].reset();
+
+                        // Mostrar mensagem de sucesso
+                        Swal.fire({
+                            title: 'Sucesso!',
+                            html: '<i class="fas fa-check-circle fa-3x text-success mb-3"></i><br>Redirecionado para o WhatsApp!',
+                            icon: 'success',
+                            confirmButtonText: '<i class="fas fa-check me-2"></i>OK',
+                            customClass: {
+                                confirmButton: 'btn btn-success btn-lg px-4'
+                            },
+                            buttonsStyling: false,
+                            timer: 2000,
+                            timerProgressBar: true
+                        });
+                    }
                 });
             });
 

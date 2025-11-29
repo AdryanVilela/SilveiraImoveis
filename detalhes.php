@@ -64,6 +64,9 @@ $configs = $configs_array;
     <!-- Custom Real Estate Theme -->
     <link href="css/real-estate-custom.css" rel="stylesheet">
     <link href="css/detalhes.css" rel="stylesheet">
+
+    <!-- SweetAlert2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -79,7 +82,7 @@ $configs = $configs_array;
     <!-- Header Start -->
     <div class="container-fluid p-0">
         <nav class="navbar navbar-expand-lg navbar-dark px-lg-5 modern-navbar" id="mainNav">
-            <a href="index.html#home" class="navbar-brand ms-4 ms-lg-0">
+            <a href="index.php#home" class="navbar-brand ms-4 ms-lg-0">
                 <img src="logo.PNG" alt="Silveira Imóveis" class="navbar-logo">
             </a>
             <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse"
@@ -238,28 +241,36 @@ $configs = $configs_array;
                     <!-- Formulário de Contato -->
                     <div class="contact-form-box">
                         <h4 class="form-title">
-                            <i class="bi bi-envelope me-2" style="color: red;"></i>Entre em contato
+                            <i class="fab fa-whatsapp me-2" style="color: #25D366;"></i>Entre em contato
                         </h4>
-                        <form class="property-contact-form">
+                        <form class="property-contact-form" id="propertyContactForm">
                             <div class="mb-3">
-                                <label class="form-label">Nome*</label>
-                                <input type="text" class="form-control" placeholder="Seu nome completo" required>
+                                <label class="form-label">
+                                    <i class="fas fa-user me-2 text-primary"></i>Nome*
+                                </label>
+                                <input type="text" class="form-control" id="contactNome" placeholder="Seu nome completo" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">E-mail*</label>
-                                <input type="email" class="form-control" placeholder="seu@email.com" required>
+                                <label class="form-label">
+                                    <i class="fas fa-envelope me-2 text-primary"></i>E-mail*
+                                </label>
+                                <input type="email" class="form-control" id="contactEmail" placeholder="seu@email.com" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Telefone*</label>
-                                <input type="tel" class="form-control" placeholder="(27) 99999-9999" required>
+                                <label class="form-label">
+                                    <i class="fas fa-phone me-2 text-primary"></i>Telefone*
+                                </label>
+                                <input type="tel" class="form-control" id="contactTelefone" placeholder="(27) 99999-9999" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Mensagem</label>
-                                <textarea class="form-control" rows="4"
+                                <label class="form-label">
+                                    <i class="fas fa-comment-dots me-2 text-primary"></i>Mensagem
+                                </label>
+                                <textarea class="form-control" id="contactMensagem" rows="4"
                                     placeholder="Gostaria de mais informações sobre este imóvel..."></textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary w-100">
-                                <i class="bi bi-send me-2"></i>Enviar Mensagem
+                            <button type="submit" class="btn btn-success w-100" style="background: #25D366; border: none; font-weight: 600; padding: 12px;">
+                                <i class="fab fa-whatsapp me-2"></i>Enviar para WhatsApp
                             </button>
                         </form>
 
@@ -268,15 +279,15 @@ $configs = $configs_array;
                             <h5 class="mb-3">Ou fale conosco:</h5>
                             <p class="contact-item">
                                 <i class="bi bi-phone-fill"></i>
-                                <span>(27) 3333-4444</span>
+                                <span><?= htmlspecialchars($configs['contato_telefone'] ?? '(27) 3333-4444') ?></span>
                             </p>
                             <p class="contact-item">
                                 <i class="bi bi-whatsapp"></i>
-                                <span>(27) 99999-9999</span>
+                                <span>(27) 99665-1104</span>
                             </p>
                             <p class="contact-item">
                                 <i class="bi bi-envelope-fill"></i>
-                                <span>contato@silveiraimoveis.com.br</span>
+                                <span><?= htmlspecialchars($configs['contato_email'] ?? 'contato@silveiraimoveis.com.br') ?></span>
                             </p>
                         </div>
                     </div>
@@ -365,6 +376,9 @@ $configs = $configs_array;
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
 
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         $(document).ready(function () {
             // Trocar imagem principal ao clicar na thumbnail
@@ -383,6 +397,117 @@ $configs = $configs_array;
                         behavior: 'auto'
                     });
                 }
+            });
+
+            // Máscara de telefone
+            $('#contactTelefone').on('input', function() {
+                let value = $(this).val().replace(/\D/g, '');
+
+                if (value.length <= 11) {
+                    value = value.replace(/^(\d{2})(\d)/g, '($1) $2');
+                    value = value.replace(/(\d)(\d{4})$/, '$1-$2');
+                }
+
+                $(this).val(value);
+            });
+
+            // Formulário de Contato - WhatsApp
+            $('#propertyContactForm').on('submit', function(e) {
+                e.preventDefault();
+
+                // Pegar valores do formulário
+                const nome = $('#contactNome').val().trim();
+                const email = $('#contactEmail').val().trim();
+                const telefone = $('#contactTelefone').val().trim();
+                const mensagem = $('#contactMensagem').val().trim();
+
+                // Validar campos obrigatórios
+                if (!nome || !email || !telefone) {
+                    Swal.fire({
+                        title: 'Atenção!',
+                        html: '<i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i><br>Por favor, preencha todos os campos obrigatórios!',
+                        icon: 'warning',
+                        confirmButtonText: '<i class="fas fa-check me-2"></i>OK',
+                        customClass: {
+                            confirmButton: 'btn btn-warning btn-lg px-4'
+                        },
+                        buttonsStyling: false
+                    });
+                    return;
+                }
+
+                // Pegar informações do imóvel
+                const imovelTitulo = '<?= addslashes($imovel['titulo'] ?? 'Imóvel') ?>';
+                const imovelLocalizacao = '<?= addslashes($imovel['localizacao'] ?? '') ?>';
+                const imovelPreco = '<?= addslashes($imovel['preco'] ?? '') ?>';
+                const imovelUrl = window.location.href;
+
+                // Montar mensagem para WhatsApp
+                let textoWhatsApp = `*INTERESSE EM IMÓVEL - SILVEIRA IMÓVEIS*\n\n`;
+                textoWhatsApp += `🏠 *Imóvel:* ${imovelTitulo}\n`;
+                if (imovelLocalizacao) {
+                    textoWhatsApp += `📍 *Localização:* ${imovelLocalizacao}\n`;
+                }
+                if (imovelPreco) {
+                    textoWhatsApp += `💰 *Preço:* ${imovelPreco}\n`;
+                }
+                textoWhatsApp += `🔗 *Link:* ${imovelUrl}\n\n`;
+                textoWhatsApp += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+                textoWhatsApp += `👤 *Nome:* ${nome}\n`;
+                textoWhatsApp += `📱 *Telefone:* ${telefone}\n`;
+                textoWhatsApp += `📧 *E-mail:* ${email}\n\n`;
+
+                if (mensagem) {
+                    textoWhatsApp += `💬 *Mensagem:*\n${mensagem}`;
+                } else {
+                    textoWhatsApp += `💬 *Mensagem:*\nGostaria de mais informações sobre este imóvel.`;
+                }
+
+                // Codificar para URL
+                const textoEncoded = encodeURIComponent(textoWhatsApp);
+
+                // Número do WhatsApp
+                const numeroWhatsApp = '5527996651104';
+
+                // Montar URL do WhatsApp
+                const urlWhatsApp = `https://api.whatsapp.com/send/?phone=${numeroWhatsApp}&text=${textoEncoded}&type=phone_number&app_absent=0`;
+
+                // Mostrar confirmação
+                Swal.fire({
+                    title: 'Enviar para WhatsApp?',
+                    html: '<i class="fab fa-whatsapp fa-3x text-success mb-3"></i><br>Você será redirecionado para o WhatsApp com as informações do imóvel',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: '<i class="fab fa-whatsapp me-2"></i>Sim, enviar!',
+                    cancelButtonText: '<i class="fas fa-xmark me-2"></i>Cancelar',
+                    customClass: {
+                        confirmButton: 'btn btn-success btn-lg px-4 me-2',
+                        cancelButton: 'btn btn-secondary btn-lg px-4'
+                    },
+                    buttonsStyling: false
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Abrir WhatsApp em nova aba
+                        window.open(urlWhatsApp, '_blank');
+
+                        // Limpar formulário
+                        $('#propertyContactForm')[0].reset();
+
+                        // Mostrar mensagem de sucesso
+                        Swal.fire({
+                            title: 'Sucesso!',
+                            html: '<i class="fas fa-check-circle fa-3x text-success mb-3"></i><br>Redirecionado para o WhatsApp!',
+                            icon: 'success',
+                            confirmButtonText: '<i class="fas fa-check me-2"></i>OK',
+                            customClass: {
+                                confirmButton: 'btn btn-success btn-lg px-4'
+                            },
+                            buttonsStyling: false,
+                            timer: 2000,
+                            timerProgressBar: true
+                        });
+                    }
+                });
             });
         });
     </script>
