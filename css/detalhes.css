@@ -1,0 +1,381 @@
+/* ========================================
+   PÁGINA DE DETALHES DO IMÓVEL
+   ======================================== */
+
+/* Fundo Branco */
+body {
+    background-color: #ffffff !important;
+}
+
+.container-fluid:not(.footer) {
+    background-color: #ffffff !important;
+}
+
+/* Footer Preto */
+.footer {
+    background-color: #000000 !important;
+}
+
+.footer.bg-dark {
+    background-color: #000000 !important;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    background: transparent;
+    padding: 0;
+    margin-bottom: 30px;
+}
+
+.breadcrumb-item a {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.breadcrumb-item a:hover {
+    color: #FF0000;
+}
+
+.breadcrumb-item.active {
+    color: #333;
+    font-weight: 600;
+}
+
+/* Galeria de Fotos */
+.property-gallery {
+    position: relative;
+}
+
+.main-image {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.main-image img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+}
+
+.badge-status {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    z-index: 10;
+}
+
+.thumbnail {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 3px solid transparent;
+}
+
+.thumbnail:hover {
+    transform: scale(1.05);
+    border-color: #FF0000;
+}
+
+/* Header do Imóvel */
+.property-header {
+    padding: 30px 0;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.property-type-badge {
+    display: inline-block;
+    background: #f8f9fa;
+    color: #666;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.property-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 10px;
+}
+
+.property-location {
+    font-size: 1.1rem;
+    color: #666;
+    margin: 0;
+}
+
+/* Seções */
+.section-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
+    border-radius: 2px;
+}
+
+/* Descrição */
+.property-description p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Características */
+.feature-box {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.feature-box:hover {
+    background: #fff;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+}
+
+.feature-box i {
+    font-size: 2.5rem;
+    color: #FF0000;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.feature-label {
+    display: block;
+    font-size: 0.9rem;
+    color: #999;
+    margin-bottom: 5px;
+}
+
+.feature-value {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #000;
+}
+
+/* Comodidades */
+.amenities-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.amenities-list li {
+    padding: 12px 0;
+    font-size: 1rem;
+    color: #555;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.amenities-list i {
+    color: #FF0000;
+    font-size: 1.2rem;
+}
+
+/* Ficha Técnica */
+.specs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.spec-item {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.spec-label {
+    font-size: 0.9rem;
+    color: #999;
+    font-weight: 500;
+}
+
+.spec-value {
+    font-size: 1.05rem;
+    color: #000;
+    font-weight: 600;
+}
+
+/* Vídeo do Empreendimento */
+.video-box {
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.video-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+}
+
+/* Formulário de Contato */
+.contact-form-box {
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.property-contact-form .form-label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.property-contact-form .form-control {
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 12px 15px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.property-contact-form .form-control:focus {
+    border-color: #FF0000;
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.15);
+}
+
+.property-contact-form .btn-primary {
+    background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
+    border: none;
+    padding: 15px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.property-contact-form .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 0, 0, 0.3);
+}
+
+/* Informações de Contato */
+.contact-info {
+    padding-top: 25px;
+    border-top: 2px solid #f0f0f0;
+}
+
+.contact-info h5 {
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    color: #555;
+}
+
+.contact-item i {
+    color: #FF0000;
+    font-size: 1.3rem;
+    width: 25px;
+}
+
+/* Responsivo */
+@media (max-width: 991px) {
+    .property-title {
+        font-size: 2rem;
+    }
+
+    .main-image img {
+        height: 350px;
+    }
+
+    .contact-form-box {
+        position: static !important;
+        margin-top: 40px;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .property-title {
+        font-size: 1.5rem;
+    }
+
+    .main-image img {
+        height: 250px;
+    }
+
+    .feature-box {
+        padding: 15px;
+    }
+
+    .feature-box i {
+        font-size: 2rem;
+    }
+
+    .specs-grid {
+        grid-template-columns: 1fr;
+    }
+}
